@@ -1,7 +1,3 @@
-/**
- * Entidade de Domínio: Food
- * Representa um alimento no domínio da aplicação
- */
 export class Food {
   private constructor(
     public readonly id: string,
