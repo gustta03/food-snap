@@ -10,10 +10,6 @@ import { FoodResponseDto } from "@application/dtos/food-response.dto";
 import { Result } from "@shared/types/result";
 import { Food } from "@domain/entities/food.entity";
 
-/**
- * Controller para gerenciar operações relacionadas a alimentos
- * Não conhece o framework HTTP, apenas lógica de apresentação
- */
 export class FoodController {
   constructor(
     private readonly createFoodUseCase: CreateFoodUseCase,

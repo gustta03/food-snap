@@ -1,12 +1,8 @@
 import { Elysia } from "elysia";
 
-/**
- * Middleware global para tratamento de erros
- */
 export const errorHandler = new Elysia().onError(({ code, error, set }) => {
   console.error(`Error [${code}]:`, error);
 
-  // Extrai a mensagem de erro de forma segura
   const errorMessage =
     error instanceof Error
       ? error.message

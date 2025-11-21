@@ -1,15 +1,7 @@
 import { Elysia } from "elysia";
 import { Result } from "@shared/types/result";
 
-/**
- * Adapter para converter entre Elysia e Controllers
- * Isola a dependência do framework HTTP da camada de apresentação
- */
 export class AlysiaAdapter {
-  /**
-   * Adapta um método de controller para uma rota do Elysia
-   * Converte o Result do controller em resposta HTTP apropriada
-   */
   static adapt<T>(
     handler: () => Promise<Result<T, string>>,
     successStatus: number = 200
@@ -28,9 +20,6 @@ export class AlysiaAdapter {
     };
   }
 
-  /**
-   * Adapta um método de controller que recebe parâmetros
-   */
   static adaptWithParams<T, P>(
     handler: (params: P) => Promise<Result<T, string>>,
     successStatus: number = 200
@@ -49,9 +38,6 @@ export class AlysiaAdapter {
     };
   }
 
-  /**
-   * Adapta um método de controller que recebe body
-   */
   static adaptWithBody<T, B>(
     handler: (body: B) => Promise<Result<T, string>>,
     successStatus: number = 200
@@ -70,9 +56,6 @@ export class AlysiaAdapter {
     };
   }
 
-  /**
-   * Adapta um método de controller que recebe params e body
-   */
   static adaptWithParamsAndBody<T, P, B>(
     handler: (params: P, body: B) => Promise<Result<T, string>>,
     successStatus: number = 200
@@ -91,9 +74,6 @@ export class AlysiaAdapter {
     };
   }
 
-  /**
-   * Adapta um método de controller que retorna void (para DELETE)
-   */
   static adaptVoid<P>(
     handler: (params: P) => Promise<Result<void, string>>,
     successStatus: number = 204
@@ -112,9 +92,6 @@ export class AlysiaAdapter {
     };
   }
 
-  /**
-   * Determina o status HTTP baseado no tipo de erro
-   */
   private static getErrorStatus(error: string): number {
     if (error.includes("not found")) {
       return 404;
