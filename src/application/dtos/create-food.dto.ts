@@ -1,6 +1,3 @@
-/**
- * DTO para criação de Food
- */
 export interface CreateFoodDto {
   name: string;
   calories: number;

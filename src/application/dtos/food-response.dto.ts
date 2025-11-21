@@ -1,6 +1,3 @@
-/**
- * DTO de resposta para Food
- */
 export interface FoodResponseDto {
   id: string;
   name: string;
