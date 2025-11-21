@@ -3,11 +3,19 @@ import { swagger } from "@elysiajs/swagger";
 import { errorHandler } from "./presentation/middlewares/error-handler.middleware";
 import { MongoDBConnection } from "./infrastructure/database/mongodb.connection";
 import { registerRoutes } from "./presentation/routes";
+import { WhatsAppService } from "./infrastructure/whatsapp/whatsapp.service";
 
 async function startServer() {
   try {
     const mongoConnection = MongoDBConnection.getInstance();
-    await mongoConnection.connect();
+    try {
+      await mongoConnection.connect();
+    } catch (error) {
+      console.warn("MongoDB connection failed, continuing without database:", error);
+    }
+
+    const whatsappService = new WhatsAppService();
+    await whatsappService.start();
 
     const app = new Elysia()
       .use(swagger({
@@ -44,12 +52,14 @@ async function startServer() {
 
     process.on("SIGINT", async () => {
       console.log("\nShutting down gracefully...");
+      await whatsappService.stop();
       await mongoConnection.disconnect();
       process.exit(0);
     });
 
     process.on("SIGTERM", async () => {
       console.log("\nShutting down gracefully...");
+      await whatsappService.stop();
       await mongoConnection.disconnect();
       process.exit(0);
     });
