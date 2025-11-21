@@ -7,4 +7,8 @@ dist/
 coverage/
 .idea/
 .vscode/
+auth_info_baileys/
+*.pid
+*.seed
+*.pid.lock
 
