@@ -1,19 +1,11 @@
 import { Elysia } from "elysia";
 import { swagger } from "@elysiajs/swagger";
-import { Container } from "./infrastructure/dependency-injection/container";
 import { errorHandler } from "./presentation/middlewares/error-handler.middleware";
 import { MongoDBConnection } from "./infrastructure/database/mongodb.connection";
+import { registerRoutes } from "./presentation/routes";
 
-/**
- * Arquivo principal da aplicação
- * Configura o servidor Elysia e registra todas as rotas
- * 
- * Fluxo de dependências:
- * Repository -> Use Case -> Controller -> Elysia (via Container)
- */
 async function startServer() {
   try {
-    // Conectar ao MongoDB antes de iniciar o servidor
     const mongoConnection = MongoDBConnection.getInstance();
     await mongoConnection.connect();
 
@@ -40,31 +32,29 @@ async function startServer() {
         status: "ok",
         timestamp: new Date().toISOString(),
       }))
-      // Container injeta: Repository -> Use Case -> Controller -> Elysia
-      .use(Container.getFoodRoutes())
+      .use(registerRoutes(new Elysia()))
       .listen(3000);
 
     console.log(
-      `🚀 Server is running at http://${app.server?.hostname}:${app.server?.port}`
+      `Server is running at http://${app.server?.hostname}:${app.server?.port}`
     );
     console.log(
-      `📚 Swagger docs available at http://${app.server?.hostname}:${app.server?.port}/swagger`
+      `Swagger docs available at http://${app.server?.hostname}:${app.server?.port}/swagger`
     );
 
-    // Graceful shutdown
     process.on("SIGINT", async () => {
-      console.log("\n🛑 Shutting down gracefully...");
+      console.log("\nShutting down gracefully...");
       await mongoConnection.disconnect();
       process.exit(0);
     });
 
     process.on("SIGTERM", async () => {
-      console.log("\n🛑 Shutting down gracefully...");
+      console.log("\nShutting down gracefully...");
       await mongoConnection.disconnect();
       process.exit(0);
     });
   } catch (error) {
-    console.error("❌ Failed to start server:", error);
+    console.error("Failed to start server:", error);
     process.exit(1);
   }
 }
