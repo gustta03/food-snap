@@ -1,9 +1,6 @@
 import { IFoodRepository } from "@domain/repositories/food.repository";
 import { Result, success, failure } from "@shared/types/result";
 
-/**
- * Caso de uso: Deletar um alimento
- */
 export class DeleteFoodUseCase {
   constructor(private readonly foodRepository: IFoodRepository) {}
 

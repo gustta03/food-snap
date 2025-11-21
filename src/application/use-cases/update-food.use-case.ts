@@ -3,9 +3,6 @@ import { IFoodRepository } from "@domain/repositories/food.repository";
 import { UpdateFoodDto } from "../dtos/update-food.dto";
 import { Result, success, failure } from "@shared/types/result";
 
-/**
- * Caso de uso: Atualizar um alimento
- */
 export class UpdateFoodUseCase {
   constructor(private readonly foodRepository: IFoodRepository) {}
 
@@ -17,7 +14,6 @@ export class UpdateFoodUseCase {
         return failure("Food not found");
       }
 
-      // Atualizar apenas os campos fornecidos
       const updatedFood = existingFood.updateMacros(
         dto.calories ?? existingFood.calories,
         dto.protein ?? existingFood.protein,

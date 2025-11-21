@@ -2,9 +2,6 @@ import { Food } from "@domain/entities/food.entity";
 import { IFoodRepository } from "@domain/repositories/food.repository";
 import { Result, success, failure } from "@shared/types/result";
 
-/**
- * Caso de uso: Listar todos os alimentos
- */
 export class ListFoodsUseCase {
   constructor(private readonly foodRepository: IFoodRepository) {}
 
